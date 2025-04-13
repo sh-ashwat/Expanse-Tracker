@@ -11,9 +11,12 @@ import SignUp from "./pages/Auth/SignUp";
 import Home from "./pages/Dashboard/Home";
 import Income from "./pages/Dashboard/Income";
 import Expanse from "./pages/Dashboard/Expanse";
+import UserProvider from "./context/userContext";
 
 const App = () => {
   return (
+    <UserProvider>
+    <div>
     <Router>
       <Routes>
         <Route path="/" element={<Root />} />
@@ -24,6 +27,8 @@ const App = () => {
         <Route path="/expanse" element={<Expanse />} />
       </Routes>
     </Router>
+    </div>
+    </UserProvider>
   );
 };
 

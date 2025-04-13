@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import AuthLayout from '../../components/layouts/Authlayout';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Input from '../../components/Inputs/Input';
 import { validateEmail } from '../../utils/helper';
 import ProfilePhotoSelector from '../../components/Inputs/ProfilePhotoSelector';
+import { UserContext } from '../../context/userContext';
+import axiosInstance from '../../utils/axiosInstance';
+import uploadImage from '../../utils/uploadImage';
+import { API_PATHS } from '../../utils/apiPaths';
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -11,41 +16,65 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // ✅ uncommented
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
-
-  // Convert profile pic to base64 (example purpose)
-
-  //this is the extra line of code 
-  const convertToBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true); // Start loading
 
     if (!fullName) {
       setError('Please enter your name');
+      setIsLoading(false);
       return;
     }
 
     if (!validateEmail(email)) {
       setError('Please enter a valid email address.');
+      setIsLoading(false);
       return;
     }
 
     if (!password || password.length < 8) {
       setError('Password should be at least 8 characters.');
+      setIsLoading(false);
       return;
     }
 
-   
+    try {
+      let profileImageUrl = "";
+
+      if (profilePic) {
+        const imageUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imageUploadRes.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setIsLoading(false); // ✅ Stop loading in both success/failure
+    }
   };
 
   return (
