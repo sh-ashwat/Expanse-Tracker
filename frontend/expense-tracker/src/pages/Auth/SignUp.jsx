@@ -16,7 +16,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // ✅ uncommented
+  const [isLoading, setIsLoading] = useState(false); 
 
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true); // Start loading
+    setIsLoading(true); 
 
     if (!fullName) {
       setError('Please enter your name');
@@ -73,7 +73,7 @@ const SignUp = () => {
         setError("Something went wrong. Please try again.");
       }
     } finally {
-      setIsLoading(false); // ✅ Stop loading in both success/failure
+      setIsLoading(false); 
     }
   };
 
