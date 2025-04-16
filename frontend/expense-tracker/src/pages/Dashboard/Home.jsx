@@ -11,7 +11,7 @@ import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
 import { IoMdCard } from "react-icons/io";
 import { addThousandSeparator } from "../../utils/helper"; 
 import RecentTransactions from "../../components/Dashboard/RecentTransactions";
-
+import FinanceOverview from "../../components/Dashboard/FinanceOverview";
 
 const Home = () => {
   useUserAuth();
@@ -30,6 +30,7 @@ const Home = () => {
       const response = await axiosInstance.get(API_PATHS.DASHBOARD.GET_DATA);
 
       if (response.data) {
+        console.log("Dashboard data loaded:", response.data);
         setDashboardData(response.data);
       }
     } catch (error) {
@@ -46,7 +47,7 @@ const Home = () => {
   return (
     <Dashboardlayout activeMenu="Dashboard">
       <div className="my-5 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
             icon={<IoMdCard />}
             label="Total Balance"
@@ -64,20 +65,24 @@ const Home = () => {
           <InfoCard
             icon={<LuHandCoins />}
             label="Total Expense"
-            value={addThousandSeparator(dashboardData?.totalExpense || 0)}
+            value={addThousandSeparator(dashboardData?.totalExpenses || 0)}
             color="bg-red-500"
           />
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        <RecentTransactions 
-        transactions={dashboardData?.RecentTransactions}
-        onSeeMore={() => navigate("/expense")}
-        />
-      </div>
-      </div>
+          <RecentTransactions 
+            transactions={dashboardData?.recentTransactions || []}
+            onSeeMore={() => navigate("/expense")}
+          />
 
-      
+          <FinanceOverview
+          totalbalance={dashboardData?.totalBalance || 0}
+          totalIncome={dashboardData?.totalIncome || 0}
+          totalExpense={dashboardData?.totalExpenses || 0}
+          />
+           </div>
+      </div>
     </Dashboardlayout>
   );
 };

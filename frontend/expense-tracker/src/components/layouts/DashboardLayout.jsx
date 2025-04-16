@@ -3,6 +3,7 @@ import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
+import RecentTransactions from "../Dashboard/RecentTransactions";
 
 const Dashboardlayout = ({ children, activeMenu }) => {
     const { user } = useContext(UserContext);
@@ -28,6 +29,7 @@ const Dashboardlayout = ({ children, activeMenu }) => {
                 </div>
             </div>
         </div>
+        
     );
 };
 
