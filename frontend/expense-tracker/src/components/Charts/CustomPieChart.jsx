@@ -3,6 +3,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recha
 import CustomTooltip from "./CustomTooltip";
 import CustomLegend from "./CustomLegend";
 
+
 const CustomPieChart = ({
     data,
     label,
@@ -27,34 +28,37 @@ const CustomPieChart = ({
                         <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                     ))}
                 </Pie>
-                <Tooltip  content={CustomTooltip} />
-                <Legend  content={CustomLegend}/>
-              
-
+                
+                <Tooltip content={<CustomTooltip />} />
+                <Legend content={<CustomLegend />} />
+                
+                {/* Center text - Important fix here */}
                 {showTextAnchor && (
-                    <>
+                    [
                         <text
+                            key="label"
                             x="50%"
                             y="50%"
                             dy={-25}
                             textAnchor="middle"
                             fill="#666"
-                            fontSize="14px"
+                            fontSize={14}
                         >
                             {label}
-                        </text>
+                        </text>,
                         <text 
+                            key="amount"
                             x="50%"
                             y="50%"
                             dy={8}
                             textAnchor="middle"
                             fill="#333"
-                            fontSize="24px"
+                            fontSize={24}
                             fontWeight="semi-bold"
                         >
-                            {totalAmount} 
+                            {totalAmount}
                         </text>
-                    </>
+                    ]
                 )}
             </PieChart>
         </ResponsiveContainer>

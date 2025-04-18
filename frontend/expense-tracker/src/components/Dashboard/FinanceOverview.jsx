@@ -20,6 +20,7 @@ const FinanceOverview = ({totalbalance, totalIncome, totalExpense}) => {
         <CustomPieChart 
         data={balanceData} 
         label="Total Balance"
+        totalAmount={totalbalance}
         colors={COLORS}
         showTextAnchor
         />

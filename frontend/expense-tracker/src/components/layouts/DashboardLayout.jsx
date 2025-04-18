@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import RecentTransactions from "../Dashboard/RecentTransactions";
+import ExpenseTransactions from "../Dashboard/ExpenseTrasactions";
 
 const Dashboardlayout = ({ children, activeMenu }) => {
     const { user } = useContext(UserContext);
@@ -17,14 +18,15 @@ const Dashboardlayout = ({ children, activeMenu }) => {
     }
 
     return (
-        <div>
+             <div className="flex flex-col h-screen">
             <Navbar activeMenu={activeMenu} />
+            
 
-            <div className="flex">
+            <div className="flex flex-1 overflow-hidden">
                 <div className="max-[1080px]:hidden">
                     <SideMenu activeMenu={activeMenu} />
                 </div>
-                <div className="grow mx-5">
+                <div className="grow mx-5 overflow-y-auto pb-8">
                     {children}
                 </div>
             </div>
