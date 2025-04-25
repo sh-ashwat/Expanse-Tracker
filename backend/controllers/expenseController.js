@@ -1,5 +1,7 @@
 const xlsx = require("xlsx");
 const Expense = require("../models/Expense");
+const path = require("path"); // Add this import
+const fs = require("fs"); // Add this import
 
 // Add Expense Source
 exports.addExpense = async (req, res) => {
@@ -63,26 +65,32 @@ exports.deleteExpense = async (req, res) => {
 // Download Expense as Excel 
 exports.downloadExpenseExcel = async (req, res) => {
     const userId = req.user.id;
-
     try {
+        // Add these required imports at the top of your file 
+        const path = require('path');
+        const fs = require('fs');
+        
         const expense = await Expense.find({ userId }).sort({ date: -1 });
-
         // Prepare data for Excel
         const data = expense.map((item) => ({
             Category: item.category,
             Amount: item.amount,
             Date: item.date.toISOString().split('T')[0], // Format date to YYYY-MM-DD
         }));
-
         // Create workbook and worksheet
         const wb = xlsx.utils.book_new();
         const ws = xlsx.utils.json_to_sheet(data);
         xlsx.utils.book_append_sheet(wb, ws, "Expense");
-
+        
+        // Ensure temp directory exists
+        const tempDir = path.join(__dirname, "../temp");
+        if (!fs.existsSync(tempDir)) {
+            fs.mkdirSync(tempDir, { recursive: true });
+        }
+        
         // Save file to temp location
         const filePath = path.join(__dirname, "../temp/expense_details.xlsx");
         xlsx.writeFile(wb, filePath);
-
         // Send the file for download
         res.download(filePath, "expense_details.xlsx", (err) => {
             if (err) {
@@ -93,7 +101,6 @@ exports.downloadExpenseExcel = async (req, res) => {
                 fs.unlinkSync(filePath);
             }
         });
-
     } catch (error) {
         console.error("Error exporting expense:", error);
         res.status(500).json({ message: "Server Error" });

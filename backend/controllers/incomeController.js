@@ -1,5 +1,7 @@
 const xlsx = require("xlsx");
 const Income = require("../models/Income");
+const path = require("path"); // Add this import
+const fs = require("fs"); // Add this import
 
 // Add Income Source
 exports.addIncome = async (req, res) => {
@@ -61,6 +63,7 @@ exports.deleteIncome = async (req, res) => {
 };
 
 // Download Income as Excel 
+
 exports.downloadIncomeExcel = async (req, res) => {
     const userId = req.user.id;
 
@@ -79,8 +82,14 @@ exports.downloadIncomeExcel = async (req, res) => {
         const ws = xlsx.utils.json_to_sheet(data);
         xlsx.utils.book_append_sheet(wb, ws, "Income");
 
+        // Ensure temp directory exists
+        const tempDir = path.join(__dirname, "../temp");
+        if (!fs.existsSync(tempDir)) {
+            fs.mkdirSync(tempDir, { recursive: true });
+        }
+
         // Save file to temp location
-        const filePath = path.join(__dirname, "../temp/income_details.xlsx");
+        const filePath = path.join(tempDir, "income_details.xlsx");
         xlsx.writeFile(wb, filePath);
 
         // Send the file for download
