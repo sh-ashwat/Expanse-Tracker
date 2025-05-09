@@ -10,7 +10,7 @@
    
     {
       "src": "/(.*)",
-      "dest": "/frontend/expense-tracker/$1"
+      "dest": "expense-tracker/$1"
     }
   ]
 }
