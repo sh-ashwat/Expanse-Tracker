@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "expense-tracker/package.json",
+      "src": "frontend/expense-tracker/package.json",
       "use": "@vercel/static-build"
     }
   ],
@@ -10,7 +10,7 @@
    
     {
       "src": "/(.*)",
-      "dest": "expense-tracker/$1"
+      "dest": "frontend/expense-tracker/$1"
     }
   ]
 }
