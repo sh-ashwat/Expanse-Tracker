@@ -12,7 +12,7 @@ const CustomPieChart = ({
     showTextAnchor
 }) => {
     return (
-        <ResponsiveContainer width="100%" height={300}> 
+        <ResponsiveContainer width="100%" height={380}> 
             <PieChart>
                 <Pie
                     data={data}
@@ -42,7 +42,7 @@ const CustomPieChart = ({
                             dy={-25}
                             textAnchor="middle"
                             fill="#666"
-                            fontSize={14}
+                            fontSize= "14px"
                         >
                             {label}
                         </text>,
@@ -53,7 +53,7 @@ const CustomPieChart = ({
                             dy={8}
                             textAnchor="middle"
                             fill="#333"
-                            fontSize={24}
+                            fontSize="24px"
                             fontWeight="semi-bold"
                         >
                             {totalAmount}

@@ -35,7 +35,7 @@ const EmojiPickerPopup = ({ icon, onSelect }) => {
                     <div className="overflow-hidden rounded-lg shadow-lg border border-gray-200">
                         <EmojiPicker
                             open={isOpen}
-                            onEmojiClick={(emojiData) => onSelect(emojiData?.emoji || "")}
+                            onEmojiClick={(emoji) => onSelect(emoji?.imageUrl || "")}
                         />
                     </div>
                 </div>
