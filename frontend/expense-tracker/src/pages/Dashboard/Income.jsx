@@ -71,7 +71,7 @@ if (!date) {
       });
       setOpenAddIncomeModel(false);
       toast.success("Income added successfully.");
-      fetchIncomeDetails();
+      fetchIncomeData();
     } catch (error) {
       console.error(
         "Error adding income:",
