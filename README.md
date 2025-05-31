@@ -18,3 +18,11 @@ Expense Tracker helps users track their spending, categorize expenses, and stay 
 🌐 RESTful API Integration with MongoDB
 
 ![image alt](https://github.com/sh-ashwat/Expense-Tracker/blob/main/Expense-tracker.png?raw=true)
+
+
+
+
+
+
+https://github.com/user-attachments/assets/83540b48-1c9c-49fd-a159-16f961c19c7f
+
